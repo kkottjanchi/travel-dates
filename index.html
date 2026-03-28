@@ -113,7 +113,7 @@ body::after {
 }
 
 /* RESULTS */
-.results-wrap { max-width:680px; margin:0 auto; padding:0 24px 60px; }
+.results-wrap { max-width:720px; margin:0 auto; padding:0 24px 60px; }
 .result-card { background:var(--white); border:1.5px solid rgba(0,0,0,0.06); padding:20px; margin-bottom:14px; }
 .result-card h3 { font-family:'Space Grotesk', sans-serif; font-size:11px; letter-spacing:0.4em; text-transform:uppercase; color:var(--sage); font-weight:700; margin-bottom:14px; }
 .result-tags { display:flex; flex-wrap:wrap; gap:8px; }
@@ -128,6 +128,44 @@ body::after {
 .match-box .big { font-family:'DM Serif Display', serif; font-size:clamp(22px, 4vw, 32px); color:var(--sage); margin-bottom:4px; }
 .match-box .small { font-size:13px; color:var(--muted); }
 .empty-msg { text-align:center; color:var(--muted); padding:24px; font-size:14px; line-height:2; }
+
+/* CALENDAR HEATMAP */
+.cal-heatmap { margin-bottom:16px; }
+.cal-month-title { font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; color:var(--sage); letter-spacing:0.1em; margin-bottom:10px; padding:12px 16px 0; }
+.cal-dow-row { display:grid; grid-template-columns:repeat(7, 1fr); gap:3px; padding:0 16px; margin-bottom:4px; }
+.cal-dow { text-align:center; font-size:11px; color:var(--muted); font-weight:600; padding:4px 0; }
+.cal-grid { display:grid; grid-template-columns:repeat(7, 1fr); gap:3px; padding:0 16px 16px; }
+.cal-cell {
+  aspect-ratio:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  border-radius:6px; font-size:13px; font-weight:600; position:relative; transition:all 0.2s;
+  min-height:44px;
+}
+.cal-cell.empty { background:transparent; }
+.cal-cell .cal-day { font-size:13px; font-weight:700; line-height:1; }
+.cal-cell .cal-count { font-size:10px; margin-top:2px; opacity:0.7; }
+.cal-cell.lv-0 { background:rgba(196,123,114,0.25); color:var(--rose); }
+.cal-cell.lv-1 { background:rgba(200,150,42,0.15); color:var(--gold); }
+.cal-cell.lv-2 { background:rgba(200,150,42,0.25); color:var(--gold); }
+.cal-cell.lv-3 { background:rgba(78,135,106,0.2); color:var(--sage); }
+.cal-cell.lv-all { background:var(--sage); color:white; }
+.cal-cell.lv-all .cal-count { opacity:0.85; }
+.cal-cell.streak { box-shadow:0 0 0 2px var(--sage); }
+.cal-cell.holiday-cell { border:1.5px dashed var(--gold); }
+.cal-legend { display:flex; align-items:center; gap:6px; justify-content:center; padding:8px 16px 16px; font-size:11px; color:var(--muted); flex-wrap:wrap; }
+.cal-legend-box { width:16px; height:16px; border-radius:3px; }
+.cal-legend-sep { width:8px; }
+
+/* STREAK HIGHLIGHT */
+.streak-card { background:linear-gradient(135deg, rgba(78,135,106,0.08), rgba(78,135,106,0.15)); border:2px solid var(--sage); padding:20px; margin-bottom:14px; text-align:center; }
+.streak-card h3 { font-family:'DM Serif Display', serif; font-size:clamp(20px, 3.5vw, 28px); color:var(--sage); margin-bottom:8px; letter-spacing:normal; text-transform:none; }
+.streak-card .streak-dates { font-size:15px; color:var(--ink); font-weight:600; margin-bottom:4px; }
+.streak-card .streak-sub { font-size:13px; color:var(--muted); }
+
+/* PERSON DETAIL */
+.person-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(120px, 1fr)); gap:8px; }
+.person-chip { padding:10px 12px; background:var(--white); border:1.5px solid rgba(0,0,0,0.06); text-align:center; }
+.person-chip .p-name { font-size:14px; font-weight:700; margin-bottom:2px; }
+.person-chip .p-stat { font-size:11px; color:var(--muted); }
 
 /* DONE */
 .done-screen {
@@ -413,16 +451,12 @@ function showResults(data) {
     for (var d = 1; d <= m.days; d++) allDates.push(m.month + '/' + d);
   });
 
-  // 각 날짜별 가능한 사람
   var available = {};
   allDates.forEach(function(dt) {
     available[dt] = names.filter(function(n) { return data[n].indexOf(dt) === -1; });
   });
 
-  // 전원 가능
   var perfect = allDates.filter(function(dt) { return available[dt].length === names.length; });
-  // n-1명 가능
-  var almost = allDates.filter(function(dt) { return available[dt].length === names.length - 1 && available[dt].length >= 2; });
 
   function findStreaks(dates, min) {
     if (dates.length === 0) return [];
@@ -441,60 +475,110 @@ function showResults(data) {
   function fmt(dt) {
     var p = dt.split('/');
     var d = new Date(2026, parseInt(p[0])-1, parseInt(p[1]));
-    return dt + '(' + DOW[d.getDay()] + ')';
+    return p[0] + '/' + p[1] + '(' + DOW[d.getDay()] + ')';
   }
+
+  // streak 날짜 Set
+  var streakSet = {};
+  var s3 = findStreaks(perfect, 3);
+  var s2 = findStreaks(perfect, 2);
+  s3.concat(s2).forEach(function(s) { s.forEach(function(dt) { streakSet[dt] = true; }); });
 
   var html = '';
 
-  // 응답자 목록
+  // 응답자 현황
   html += '<div class="result-card"><h3>응답 현황 — ' + names.length + '/' + TOTAL_MEMBERS + '명</h3>';
-  html += '<div class="result-tags">';
-  names.forEach(function(n) { html += '<span class="r-name">' + n + '</span>'; });
+  html += '<div class="person-grid">';
+  names.forEach(function(n) {
+    var avail = allDates.filter(function(dt) { return data[n].indexOf(dt) === -1; }).length;
+    html += '<div class="person-chip"><div class="p-name">' + n + '</div><div class="p-stat">' + avail + '일 가능</div></div>';
+  });
   html += '</div></div>';
 
-  if (perfect.length > 0) {
-    var s3 = findStreaks(perfect, 3);
-    var s2 = findStreaks(perfect, 2);
-
-    if (s3.length > 0) {
-      html += '<div class="match-box"><div class="big">2박 3일 가능한 구간 발견!</div>';
-      html += '<div class="small">' + names.length + '명 전원 가능</div></div>';
-      html += '<div class="result-card"><h3>연속 3일 이상</h3><div class="result-tags">';
-      s3.forEach(function(s) {
-        html += '<span class="r-tag r-perfect">' + fmt(s[0]) + ' ~ ' + fmt(s[s.length-1]) + ' (' + s.length + '일)</span>';
+  // 연속 구간 하이라이트
+  if (s3.length > 0) {
+    html += '<div class="streak-card"><h3>2박 3일 이상 가능!</h3>';
+    s3.forEach(function(s) {
+      html += '<div class="streak-dates">' + fmt(s[0]) + ' ~ ' + fmt(s[s.length-1]) + '</div>';
+      html += '<div class="streak-sub">' + s.length + '일 연속 · ' + names.length + '명 전원</div>';
+    });
+    html += '</div>';
+  } else if (s2.length > 0) {
+    var only2 = s2.filter(function(s) { return s.length === 2; });
+    if (only2.length > 0) {
+      html += '<div class="streak-card" style="border-color:var(--gold)"><h3 style="color:var(--gold)">1박 2일 가능</h3>';
+      only2.forEach(function(s) {
+        html += '<div class="streak-dates">' + fmt(s[0]) + ' ~ ' + fmt(s[1]) + '</div>';
       });
-      html += '</div></div>';
+      html += '<div class="streak-sub">' + names.length + '명 전원</div></div>';
+    }
+  } else if (perfect.length === 0) {
+    html += '<div class="streak-card" style="border-color:var(--rose)"><h3 style="color:var(--rose)">전원 가능한 연속 날짜가 아직 없어요</h3>';
+    html += '<div class="streak-sub">응답이 더 모이면 결과가 나옵니다</div></div>';
+  }
+
+  // 달력 히트맵
+  MONTHS.forEach(function(m) {
+    html += '<div class="result-card cal-heatmap">';
+    html += '<div class="cal-month-title">' + m.year + '년 ' + m.label + '</div>';
+    html += '<div class="cal-dow-row">';
+    ['일','월','화','수','목','금','토'].forEach(function(d) { html += '<div class="cal-dow">' + d + '</div>'; });
+    html += '</div>';
+    html += '<div class="cal-grid">';
+
+    // 첫날 요일만큼 빈칸
+    var firstDow = new Date(m.year, m.month - 1, 1).getDay();
+    for (var e = 0; e < firstDow; e++) {
+      html += '<div class="cal-cell empty"></div>';
     }
 
-    if (s2.length > 0) {
-      var only2 = s2.filter(function(s) { return s.length === 2; });
-      if (only2.length > 0) {
-        html += '<div class="result-card"><h3>1박 2일</h3><div class="result-tags">';
-        only2.forEach(function(s) {
-          html += '<span class="r-tag r-perfect">' + fmt(s[0]) + ' ~ ' + fmt(s[1]) + '</span>';
-        });
-        html += '</div></div>';
-      }
+    for (var d = 1; d <= m.days; d++) {
+      var key = m.month + '/' + d;
+      var dt = new Date(m.year, m.month - 1, d);
+      var avail = available[key] ? available[key].length : 0;
+      var ratio = names.length > 0 ? avail / names.length : 0;
+      var lvClass = 'lv-0';
+      if (avail === names.length) lvClass = 'lv-all';
+      else if (ratio >= 0.8) lvClass = 'lv-3';
+      else if (ratio >= 0.5) lvClass = 'lv-2';
+      else if (ratio > 0) lvClass = 'lv-1';
+
+      var extra = '';
+      if (streakSet[key]) extra += ' streak';
+      if (m.holidays[d]) extra += ' holiday-cell';
+
+      var tooltip = available[key] ? available[key].join(', ') : '';
+
+      html += '<div class="cal-cell ' + lvClass + extra + '" title="' + key + ': ' + tooltip + '">';
+      html += '<div class="cal-day">' + d + '</div>';
+      html += '<div class="cal-count">' + avail + '/' + names.length + '</div>';
+      html += '</div>';
     }
 
-    html += '<div class="result-card"><h3>전원 가능 날짜 (' + perfect.length + '일)</h3><div class="result-tags">';
+    html += '</div>';
+    html += '</div>';
+  });
+
+  // 범례
+  html += '<div class="result-card"><div class="cal-legend">';
+  html += '<span class="cal-legend-box" style="background:rgba(196,123,114,0.25)"></span> 0명';
+  html += '<span class="cal-legend-sep"></span>';
+  html += '<span class="cal-legend-box" style="background:rgba(200,150,42,0.15)"></span> 일부';
+  html += '<span class="cal-legend-sep"></span>';
+  html += '<span class="cal-legend-box" style="background:rgba(200,150,42,0.25)"></span> 과반';
+  html += '<span class="cal-legend-sep"></span>';
+  html += '<span class="cal-legend-box" style="background:rgba(78,135,106,0.2)"></span> 대부분';
+  html += '<span class="cal-legend-sep"></span>';
+  html += '<span class="cal-legend-box" style="background:var(--sage)"></span> 전원';
+  html += '<span class="cal-legend-sep"></span>';
+  html += '<span class="cal-legend-box" style="background:var(--white);box-shadow:0 0 0 2px var(--sage)"></span> 연속 구간';
+  html += '</div></div>';
+
+  // 전원 가능 날짜 리스트
+  if (perfect.length > 0) {
+    html += '<div class="result-card"><h3>전원 가능 (' + perfect.length + '일)</h3><div class="result-tags">';
     perfect.forEach(function(dt) { html += '<span class="r-tag r-perfect">' + fmt(dt) + '</span>'; });
     html += '</div></div>';
-
-  } else if (names.length >= 2 && almost.length > 0) {
-    // 전원은 안 되지만 n-1명 가능한 날
-    html += '<div class="match-box"><div class="big" style="color:var(--gold)">전원 가능한 날은 아직 없어요</div>';
-    html += '<div class="small">' + (names.length - 1) + '명 가능한 날이 있습니다</div></div>';
-    var s3a = findStreaks(almost, 3);
-    if (s3a.length > 0) {
-      html += '<div class="result-card"><h3>' + (names.length-1) + '명 가능 — 연속 3일+</h3><div class="result-tags">';
-      s3a.forEach(function(s) {
-        html += '<span class="r-tag r-good">' + fmt(s[0]) + ' ~ ' + fmt(s[s.length-1]) + '</span>';
-      });
-      html += '</div></div>';
-    }
-  } else {
-    html += '<div class="empty-msg">전원 가능한 날이 아직 없습니다.<br>더 많은 응답이 모이면 결과가 나옵니다.</div>';
   }
 
   area.innerHTML = html;
