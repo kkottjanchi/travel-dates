@@ -10,17 +10,16 @@
 html{font-size:18px}
 body{font-family:"Noto Sans KR",sans-serif;background:#0f0f1a;color:#e0e0e0;min-height:100vh;-webkit-text-size-adjust:100%}
 .hero{text-align:center;padding:60px 20px 30px}
-.hero .sub{color:#888;font-size:0.7rem;letter-spacing:4px;margin-bottom:8px}
+.hero .sub{color:#888;font-size:.7rem;letter-spacing:4px;margin-bottom:8px}
 .hero h1{font-size:2rem;font-weight:900;background:linear-gradient(135deg,#e2b0ff,#9ecbff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px}
-.hero p{color:#aaa;font-size:0.9rem;line-height:1.6}
-.hero .badge{display:inline-block;margin-top:12px;padding:6px 16px;background:#667eea30;color:#9ecbff;border-radius:20px;font-size:0.75rem;font-weight:700}
+.hero p{color:#aaa;font-size:.9rem;line-height:1.6}
+.hero .badge{display:inline-block;margin-top:12px;padding:6px 16px;background:#667eea30;color:#9ecbff;border-radius:20px;font-size:.75rem;font-weight:700}
 .container{max-width:540px;margin:0 auto;padding:0 16px 40px}
 .section{margin-bottom:30px}
 .section-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
-.section-num{font-size:0.7rem;color:#667eea;font-weight:900;letter-spacing:2px}
+.section-num{font-size:.7rem;color:#667eea;font-weight:900;letter-spacing:2px}
 .section-title{font-size:1.1rem;font-weight:700;color:#c9a0ff}
-.field-label{font-size:0.9rem;color:#ccc;margin-bottom:6px;font-weight:600}
-.field-desc{font-size:0.75rem;color:#666;margin-bottom:10px}
+.field-desc{font-size:.75rem;color:#666;margin-bottom:10px}
 .name-input{width:100%;padding:16px;background:#1a1a2e;border:2px solid #2a2a4a;border-radius:12px;color:#fff;font-size:1rem;font-family:inherit;outline:none;transition:border .2s}
 .name-input:focus{border-color:#667eea}
 .month-block{background:#1a1a2e;border-radius:16px;padding:16px;margin-bottom:16px}
@@ -29,25 +28,18 @@ body{font-family:"Noto Sans KR",sans-serif;background:#0f0f1a;color:#e0e0e0;min-
 .date-item{display:flex;align-items:center;gap:12px;padding:12px 10px;border-radius:10px;cursor:pointer;transition:background .15s}
 .date-item:active{background:#2a2a4a}
 .date-item input[type=checkbox]{width:24px;height:24px;accent-color:#ff4757;cursor:pointer;flex-shrink:0}
-.date-item .dt{font-size:0.95rem;font-weight:500;flex:1}
-.tag{font-size:0.65rem;padding:3px 8px;border-radius:6px;font-weight:700}
+.date-item .dt{font-size:.95rem;font-weight:500;flex:1}
+.tag{font-size:.65rem;padding:3px 8px;border-radius:6px;font-weight:700}
 .tag-weekend{background:#ff6b6b25;color:#ff6b6b}
 .tag-holiday{background:#ffd93d25;color:#ffd93d}
 .submit-btn{width:100%;padding:18px;background:linear-gradient(135deg,#667eea,#764ba2);border:none;border-radius:14px;color:#fff;font-size:1.1rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;margin-top:10px}
-.submit-btn:active{transform:scale(0.98)}
+.submit-btn:active{transform:scale(.98)}
 .submit-btn:disabled{opacity:.4;cursor:default}
-.redo-btn{width:100%;padding:18px;background:linear-gradient(135deg,#e17055,#d63031);border:none;border-radius:14px;color:#fff;font-size:1.1rem;font-weight:700;cursor:pointer;font-family:inherit;margin-top:10px;display:none}
-.results{margin-top:30px}
-.result-card{background:#1a1a2e;border-radius:16px;padding:16px;margin-bottom:12px;text-align:center}
-.result-card h3{font-size:1rem;color:#c9a0ff;margin-bottom:10px}
-.result-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
-.r-tag{padding:8px 12px;border-radius:8px;font-size:0.8rem;font-weight:600}
-.r-perfect{background:#00b894;color:#fff}
-.r-name{padding:6px 14px;background:#2a2a4a;border-radius:20px;font-size:0.8rem;color:#c9a0ff}
-.match-box{text-align:center;padding:20px;background:linear-gradient(135deg,#00b89420,#00cec920);border-radius:16px;margin-bottom:16px}
-.match-box .big{font-size:1.3rem;font-weight:900;color:#00b894}
-.empty-msg{text-align:center;color:#666;padding:20px;font-size:0.85rem}
-.footer{text-align:center;padding:20px;color:#333;font-size:0.7rem}
+.done-msg{text-align:center;padding:30px;background:#1a1a2e;border-radius:16px;margin-top:20px}
+.done-msg h2{color:#00b894;font-size:1.3rem;margin-bottom:8px}
+.done-msg p{color:#888;font-size:.85rem;line-height:1.5}
+.done-msg a{color:#9ecbff;text-decoration:underline}
+.footer{text-align:center;padding:20px;color:#333;font-size:.7rem}
 .hidden{display:none}
 </style>
 </head>
@@ -57,214 +49,140 @@ body{font-family:"Noto Sans KR",sans-serif;background:#0f0f1a;color:#e0e0e0;min-
   <div class="sub">TRAVEL 2026</div>
   <h1>여행 날짜 맞추기</h1>
   <p>안 되는 날만 체크하면 끝!<br>체크 안 한 날 = 가능한 날</p>
-  <div class="badge">4월 ~ 5월 · 2박 3일 기준</div>
+  <div class="badge">4월 ~ 5월</div>
 </div>
 
 <div class="container">
-  <div class="section">
-    <div class="section-header">
-      <span class="section-num">01</span>
-      <span class="section-title">이름</span>
-    </div>
-    <div class="field-desc">누가 답했는지 알아야 하니까요.</div>
-    <input type="text" class="name-input" id="nameInput" placeholder="실명" maxlength="10">
-  </div>
+  <form id="mainForm" action="https://docs.google.com/forms/d/e/1FAIpQLSd_placeholder/formResponse" method="POST" target="hidden_iframe">
 
-  <div id="calendarSection" class="hidden">
     <div class="section">
       <div class="section-header">
-        <span class="section-num">02</span>
-        <span class="section-title">안 되는 날짜</span>
+        <span class="section-num">01</span>
+        <span class="section-title">이름</span>
       </div>
-      <div class="field-desc">안 되는 날만 체크! 체크 안 하면 가능한 날로 간주합니다.</div>
-      <div id="calendarArea"></div>
+      <div class="field-desc">누가 답했는지 알아야 하니까요.</div>
+      <input type="text" class="name-input" name="entry.1076725878" id="nameInput" placeholder="실명" required maxlength="10">
     </div>
 
-    <button class="submit-btn" id="submitBtn" onclick="submitForm()">제출하기</button>
-    <button class="redo-btn" id="redoBtn" onclick="redoForm()">다시 하기</button>
-  </div>
+    <div class="section" id="calendarSection">
+      <div class="section-header">
+        <span class="section-num">02</span>
+        <span class="section-title">4월 — 안 되는 날 체크</span>
+      </div>
+      <div class="field-desc">안 되는 날만 체크! 체크 안 하면 가능한 날로 간주.</div>
+      <div class="month-block" id="aprGrid"></div>
+    </div>
 
-  <div class="results" id="resultsArea">
-    <div class="empty-msg">응답을 불러오는 중...</div>
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">03</span>
+        <span class="section-title">5월 — 안 되는 날 체크</span>
+      </div>
+      <div class="month-block" id="mayGrid"></div>
+    </div>
+
+    <button type="submit" class="submit-btn" id="submitBtn">제출하기</button>
+  </form>
+
+  <div class="done-msg hidden" id="doneMsg">
+    <h2>제출 완료!</h2>
+    <p>응답이 저장됐습니다.<br>일정 바뀌면 다시 들어와서 제출하면 됩니다.</p>
+    <p style="margin-top:12px"><a href="javascript:location.reload()">다시 하기</a></p>
   </div>
 </div>
+
+<iframe name="hidden_iframe" style="display:none"></iframe>
 
 <div class="footer">TRAVEL DATE PICKER · 2026</div>
 
 <script>
-var API = 'https://script.google.com/macros/s/AKfycbzuyYQUAcG9LZicEbaMMYALxW95z-J5J5mECfQFklETELndZIwwLxU-wAZET_7PjMAu/exec';
-var userName = '';
-var unavailable = [];
+var FORM_ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLSd_placeholder/formResponse';
 var DOW = ['일','월','화','수','목','금','토'];
-var MONTHS = [
-  {year:2026, month:4, label:'4월', days:30, holidays:{}},
-  {year:2026, month:5, label:'5월', days:31, holidays:{5:'어린이날',6:'대체휴일'}}
-];
 
-// 이름 입력 후 엔터
-document.getElementById('nameInput').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') startPicking();
-});
-document.getElementById('nameInput').addEventListener('blur', function() {
-  if (this.value.trim()) startPicking();
-});
+// Google Form의 실제 formResponse URL 가져오기
+(function(){
+  var formId = '1_GG92YNWtgeuTmJOZE7H0Utwmu4TkV-kB5nZKPfO1wY';
+  var action = 'https://docs.google.com/forms/d/' + formId + '/formResponse';
+  document.getElementById('mainForm').action = action;
+})();
 
-function startPicking() {
+// 4월 날짜 생성
+(function(){
+  var grid = document.getElementById('aprGrid');
+  var holidays = {};
+  for (var d = 1; d <= 30; d++) {
+    var dt = new Date(2026, 3, d);
+    var dow = dt.getDay();
+    var label = '4/' + d + ' (' + DOW[dow] + ')';
+    var fullLabel = label;
+    if (dow === 0 || dow === 6) fullLabel += ' [주말]';
+    var item = document.createElement('label');
+    item.className = 'date-item';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.name = 'entry.500483830';
+    cb.value = fullLabel;
+    item.appendChild(cb);
+    var span = document.createElement('span');
+    span.className = 'dt';
+    span.textContent = label;
+    item.appendChild(span);
+    if (dow === 0 || dow === 6) {
+      var tag = document.createElement('span');
+      tag.className = 'tag tag-weekend';
+      tag.textContent = '주말';
+      item.appendChild(tag);
+    }
+    grid.appendChild(item);
+  }
+})();
+
+// 5월 날짜 생성
+(function(){
+  var grid = document.getElementById('mayGrid');
+  var holidays = {5:'어린이날',6:'대체휴일'};
+  for (var d = 1; d <= 31; d++) {
+    var dt = new Date(2026, 4, d);
+    var dow = dt.getDay();
+    var label = '5/' + d + ' (' + DOW[dow] + ')';
+    var fullLabel = label;
+    if (holidays[d]) fullLabel = '5/' + d + ' (' + DOW[dow] + ') [' + holidays[d] + ']';
+    else if (dow === 0 || dow === 6) fullLabel += ' [주말]';
+    var item = document.createElement('label');
+    item.className = 'date-item';
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.name = 'entry.807108509';
+    cb.value = fullLabel;
+    item.appendChild(cb);
+    var span = document.createElement('span');
+    span.className = 'dt';
+    span.textContent = label;
+    item.appendChild(span);
+    if (holidays[d]) {
+      var tag = document.createElement('span');
+      tag.className = 'tag tag-holiday';
+      tag.textContent = holidays[d];
+      item.appendChild(tag);
+    } else if (dow === 0 || dow === 6) {
+      var tag = document.createElement('span');
+      tag.className = 'tag tag-weekend';
+      tag.textContent = '주말';
+      item.appendChild(tag);
+    }
+    grid.appendChild(item);
+  }
+})();
+
+// 제출 처리
+document.getElementById('mainForm').addEventListener('submit', function() {
   var name = document.getElementById('nameInput').value.trim();
-  if (!name) return;
-  userName = name;
-  unavailable = [];
-  document.getElementById('nameInput').disabled = true;
-  renderDates();
-  document.getElementById('calendarSection').classList.remove('hidden');
-}
-
-function renderDates() {
-  var area = document.getElementById('calendarArea');
-  area.innerHTML = '';
-  MONTHS.forEach(function(m) {
-    var block = document.createElement('div');
-    block.className = 'month-block';
-    var label = document.createElement('div');
-    label.className = 'month-label';
-    label.textContent = m.label + ' — 안 되는 날 체크';
-    block.appendChild(label);
-    var grid = document.createElement('div');
-    grid.className = 'date-grid';
-    for (var d = 1; d <= m.days; d++) {
-      var dt = new Date(m.year, m.month-1, d);
-      var dow = dt.getDay();
-      var key = m.month + '/' + d;
-      var item = document.createElement('label');
-      item.className = 'date-item';
-      var cb = document.createElement('input');
-      cb.type = 'checkbox';
-      cb.dataset.key = key;
-      cb.addEventListener('change', function() {
-        var k = this.dataset.key;
-        if (this.checked) unavailable.push(k);
-        else { var i = unavailable.indexOf(k); if (i > -1) unavailable.splice(i, 1); }
-      });
-      item.appendChild(cb);
-      var span = document.createElement('span');
-      span.className = 'dt';
-      span.textContent = m.month + '/' + d + ' (' + DOW[dow] + ')';
-      item.appendChild(span);
-      if (m.holidays[d]) {
-        var tag = document.createElement('span');
-        tag.className = 'tag tag-holiday';
-        tag.textContent = m.holidays[d];
-        item.appendChild(tag);
-      } else if (dow === 0 || dow === 6) {
-        var tag = document.createElement('span');
-        tag.className = 'tag tag-weekend';
-        tag.textContent = '주말';
-        item.appendChild(tag);
-      }
-      grid.appendChild(item);
-    }
-    block.appendChild(grid);
-    area.appendChild(block);
-  });
-}
-
-function submitForm() {
-  var btn = document.getElementById('submitBtn');
-  btn.disabled = true;
-  btn.textContent = '저장 중...';
-  fetch(API, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({name: userName, unavailable: unavailable})
-  }).then(function() {
-    btn.textContent = userName + ' 제출 완료!';
-    btn.style.display = 'none';
-    document.getElementById('redoBtn').style.display = 'block';
-    loadResults();
-  }).catch(function() {
-    btn.textContent = '오류 — 다시 시도';
-    btn.disabled = false;
-  });
-}
-
-function redoForm() {
-  unavailable = [];
-  document.getElementById('redoBtn').style.display = 'none';
-  var btn = document.getElementById('submitBtn');
-  btn.style.display = '';
-  btn.disabled = false;
-  btn.textContent = '제출하기';
-  var cbs = document.querySelectorAll('#calendarArea input[type=checkbox]');
-  for (var i = 0; i < cbs.length; i++) cbs[i].checked = false;
-}
-
-function loadResults() {
-  fetch(API + '?action=data')
-    .then(function(r) { return r.json(); })
-    .then(function(data) { showResults(data); })
-    .catch(function() {
-      document.getElementById('resultsArea').innerHTML = '<div class="empty-msg">결과를 불러올 수 없습니다</div>';
-    });
-}
-
-function showResults(data) {
-  var area = document.getElementById('resultsArea');
-  var names = Object.keys(data);
-  if (names.length === 0) { area.innerHTML = '<div class="empty-msg">아직 응답이 없습니다</div>'; return; }
-  var allDates = [];
-  MONTHS.forEach(function(m) { for (var d = 1; d <= m.days; d++) allDates.push(m.month + '/' + d); });
-  var available = {};
-  allDates.forEach(function(dt) {
-    available[dt] = names.filter(function(n) { return data[n].indexOf(dt) === -1; });
-  });
-  var perfect = [];
-  allDates.forEach(function(dt) { if (available[dt].length === names.length) perfect.push(dt); });
-
-  function findStreaks(dates, min) {
-    if (dates.length === 0) return [];
-    var streaks = [], cur = [dates[0]];
-    for (var i = 1; i < dates.length; i++) {
-      var p = dates[i-1].split('/'), c = dates[i].split('/');
-      var pd = new Date(2026, parseInt(p[0])-1, parseInt(p[1]));
-      var cd = new Date(2026, parseInt(c[0])-1, parseInt(c[1]));
-      if (cd - pd === 86400000) cur.push(dates[i]);
-      else { if (cur.length >= min) streaks.push(cur.slice()); cur = [dates[i]]; }
-    }
-    if (cur.length >= min) streaks.push(cur);
-    return streaks;
-  }
-  function fmt(dt) { var p = dt.split('/'); var d = new Date(2026,parseInt(p[0])-1,parseInt(p[1])); return dt + ' (' + DOW[d.getDay()] + ')'; }
-
-  var html = '<div class="result-card"><h3>' + names.length + '명 응답</h3><div class="result-tags">';
-  names.forEach(function(n) { html += '<span class="r-name">' + n + '</span>'; });
-  html += '</div></div>';
-
-  if (perfect.length > 0) {
-    var s3 = findStreaks(perfect, 3);
-    var s2 = findStreaks(perfect, 2);
-    if (s3.length > 0) {
-      html += '<div class="match-box"><div class="big">2박 3일 이상 가능!</div></div>';
-      html += '<div class="result-card"><h3>연속 3일+</h3><div class="result-tags">';
-      s3.forEach(function(s) { html += '<span class="r-tag r-perfect">' + fmt(s[0]) + ' ~ ' + fmt(s[s.length-1]) + '</span>'; });
-      html += '</div></div>';
-    }
-    if (s2.length > 0) {
-      html += '<div class="result-card"><h3>1박 2일</h3><div class="result-tags">';
-      s2.forEach(function(s) { if(s.length===2) html += '<span class="r-tag r-perfect">' + fmt(s[0]) + ' ~ ' + fmt(s[1]) + '</span>'; });
-      html += '</div></div>';
-    }
-    html += '<div class="result-card"><h3>모두 가능 (' + perfect.length + '일)</h3><div class="result-tags">';
-    perfect.forEach(function(dt) { html += '<span class="r-tag r-perfect">' + fmt(dt) + '</span>'; });
-    html += '</div></div>';
-  } else {
-    html += '<div class="result-card"><h3 style="color:#ff6b6b">전원 가능한 날이 아직 없어요</h3><p style="color:#666;font-size:0.8rem;margin-top:8px">더 많은 사람이 응답하면 결과가 나와요!</p></div>';
-  }
-  area.innerHTML = html;
-}
-
-// 초기 로드
-loadResults();
+  if (!name) return false;
+  setTimeout(function() {
+    document.getElementById('mainForm').style.display = 'none';
+    document.getElementById('doneMsg').classList.remove('hidden');
+  }, 500);
+});
 </script>
 </body>
 </html>
