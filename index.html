@@ -254,7 +254,8 @@ footer { background:var(--ink); padding:40px 80px; display:flex; justify-content
 <div class="done-screen" id="doneScreen">
   <div class="done-emoji">&#127793;</div>
   <div class="done-title">제출 완료!</div>
-  <div class="done-desc">아래에서 결과를 확인하세요.</div>
+  <div class="done-desc">아래에서 결과를 확인하세요.<br>잘못 썼으면 다시 할 수 있어요.</div>
+  <button class="submit-btn" style="background:var(--rose);margin-top:12px" onclick="reopenForm()">다시 제출하기</button>
 </div>
 
 <!-- RESULTS -->
@@ -415,18 +416,23 @@ function showDone() {
   loadResults();
 }
 
-function redoForm() {
+function reopenForm() {
   unavailable = [];
-  document.getElementById('redoBtn').style.display = 'none';
-  var btn = document.getElementById('submitBtn');
-  btn.style.display = '';
-  btn.disabled = false;
-  btn.textContent = '제출하기';
+  document.getElementById('doneScreen').classList.remove('show');
+  document.getElementById('doneScreen').style.display = 'none';
+  var fw = document.getElementById('formWrap');
+  fw.style.display = '';
+  // 이름은 유지, 체크만 초기화
   var cbs = document.querySelectorAll('#calendarArea input[type=checkbox]');
   for (var i = 0; i < cbs.length; i++) {
     cbs[i].checked = false;
     cbs[i].parentElement.classList.remove('checked');
   }
+  var btn = document.getElementById('submitBtn');
+  btn.style.display = '';
+  btn.disabled = false;
+  btn.textContent = '제출하기';
+  window.scrollTo({top: document.getElementById('calendarSection').offsetTop - 20, behavior:'smooth'});
 }
 
 function loadResults() {
