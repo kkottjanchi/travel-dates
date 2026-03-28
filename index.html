@@ -3,105 +3,260 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>여행 날짜 맞추기</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
+<title>답사 날짜 맞추기 — 생존전통</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700;900&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-html{font-size:18px}
-body{font-family:"Noto Sans KR",sans-serif;background:#0f0f1a;color:#e0e0e0;min-height:100vh;-webkit-text-size-adjust:100%}
-.hero{text-align:center;padding:60px 20px 30px}
-.hero .sub{color:#888;font-size:0.7rem;letter-spacing:4px;margin-bottom:8px}
-.hero h1{font-size:2rem;font-weight:900;background:linear-gradient(135deg,#e2b0ff,#9ecbff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px}
-.hero p{color:#aaa;font-size:0.9rem;line-height:1.6}
-.hero .badge{display:inline-block;margin-top:12px;padding:6px 16px;background:#667eea30;color:#9ecbff;border-radius:20px;font-size:0.75rem;font-weight:700}
-.container{max-width:540px;margin:0 auto;padding:0 16px 40px}
-.section{margin-bottom:30px}
-.section-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
-.section-num{font-size:0.7rem;color:#667eea;font-weight:900;letter-spacing:2px}
-.section-title{font-size:1.1rem;font-weight:700;color:#c9a0ff}
-.field-label{font-size:0.9rem;color:#ccc;margin-bottom:6px;font-weight:600}
-.field-desc{font-size:0.75rem;color:#666;margin-bottom:10px}
-.name-input{width:100%;padding:16px;background:#1a1a2e;border:2px solid #2a2a4a;border-radius:12px;color:#fff;font-size:1rem;font-family:inherit;outline:none;transition:border .2s}
-.name-input:focus{border-color:#667eea}
-.month-block{background:#1a1a2e;border-radius:16px;padding:16px;margin-bottom:16px}
-.month-label{font-size:1rem;font-weight:700;color:#c9a0ff;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #2a2a4a}
-.date-grid{display:flex;flex-direction:column;gap:2px}
-.date-item{display:flex;align-items:center;gap:12px;padding:12px 10px;border-radius:10px;cursor:pointer;transition:background .15s}
-.date-item:active{background:#2a2a4a}
-.date-item input[type=checkbox]{width:24px;height:24px;accent-color:#ff4757;cursor:pointer;flex-shrink:0}
-.date-item .dt{font-size:0.95rem;font-weight:500;flex:1}
-.tag{font-size:0.65rem;padding:3px 8px;border-radius:6px;font-weight:700}
-.tag-weekend{background:#ff6b6b25;color:#ff6b6b}
-.tag-holiday{background:#ffd93d25;color:#ffd93d}
-.submit-btn{width:100%;padding:18px;background:linear-gradient(135deg,#667eea,#764ba2);border:none;border-radius:14px;color:#fff;font-size:1.1rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;margin-top:10px}
-.submit-btn:active{transform:scale(0.98)}
-.submit-btn:disabled{opacity:.4;cursor:default}
-.redo-btn{width:100%;padding:18px;background:linear-gradient(135deg,#e17055,#d63031);border:none;border-radius:14px;color:#fff;font-size:1.1rem;font-weight:700;cursor:pointer;font-family:inherit;margin-top:10px;display:none}
-.results{margin-top:30px}
-.result-card{background:#1a1a2e;border-radius:16px;padding:16px;margin-bottom:12px;text-align:center}
-.result-card h3{font-size:1rem;color:#c9a0ff;margin-bottom:10px}
-.result-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
-.r-tag{padding:8px 12px;border-radius:8px;font-size:0.8rem;font-weight:600}
-.r-perfect{background:#00b894;color:#fff}
-.r-name{padding:6px 14px;background:#2a2a4a;border-radius:20px;font-size:0.8rem;color:#c9a0ff}
-.match-box{text-align:center;padding:20px;background:linear-gradient(135deg,#00b89420,#00cec920);border-radius:16px;margin-bottom:16px}
-.match-box .big{font-size:1.3rem;font-weight:900;color:#00b894}
-.empty-msg{text-align:center;color:#666;padding:20px;font-size:0.85rem}
-.footer{text-align:center;padding:20px;color:#333;font-size:0.7rem}
-.hidden{display:none}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; font-size:16px; }
+body { font-family:'Pretendard', sans-serif; background:#F5F0E8; color:#1C1C1C; overflow-x:hidden; min-height:100vh; -webkit-text-size-adjust:100%; }
+:root {
+  --paper:#F5F0E8; --white:#FDFAF5; --ink:#1C1C1C;
+  --sage:#4E876A; --gold:#C8962A; --rose:#C47B72;
+  --sky:#7BA8C4; --lav:#8B80B8; --terra:#A0785A;
+  --muted:rgba(28,28,28,0.45);
+}
+body::after {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:999;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  mix-blend-mode:multiply; opacity:0.6;
+}
+
+/* PROGRESS */
+.progress-wrap { position:fixed; top:0; left:0; right:0; z-index:400; height:4px; background:rgba(0,0,0,0.06); }
+.progress-bar { height:100%; background:var(--sage); width:0%; transition:width 0.5s cubic-bezier(0.16,1,0.3,1); }
+
+/* HERO */
+.sv-hero {
+  min-height:45vh; background:var(--sage);
+  display:flex; flex-direction:column; justify-content:center;
+  padding:80px 80px 60px; position:relative; overflow:hidden;
+}
+.sv-hero-bg {
+  position:absolute; right:-30px; top:50%; transform:translateY(-50%);
+  font-family:'DM Serif Display', serif; font-size:clamp(140px, 25vw, 360px);
+  color:rgba(255,255,255,0.06); line-height:0.85; font-style:italic; pointer-events:none;
+}
+.sv-kicker { font-family:'Space Grotesk', sans-serif; font-size:10px; letter-spacing:0.7em; text-transform:uppercase; color:rgba(255,255,255,0.55); font-weight:700; margin-bottom:16px; }
+.sv-title { font-family:'DM Serif Display', serif; font-size:clamp(32px, 6vw, 56px); color:white; line-height:1.1; margin-bottom:16px; }
+.sv-title em { font-style:italic; color:rgba(255,255,255,0.45); }
+.sv-sub { font-size:clamp(14px, 1.8vw, 17px); color:rgba(255,255,255,0.75); line-height:2; max-width:480px; }
+.sv-badge { display:inline-block; background:rgba(255,255,255,0.15); backdrop-filter:blur(8px); padding:10px 20px; border-radius:3px; margin-top:20px; font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; color:white; letter-spacing:0.05em; }
+
+/* FORM */
+.form-wrap { max-width:680px; margin:0 auto; padding:60px 24px 100px; }
+
+/* SECTION */
+.sv-section { margin-bottom:48px; opacity:0; transform:translateY(24px); transition:all 0.6s cubic-bezier(0.16,1,0.3,1); }
+.sv-section.visible { opacity:1; transform:none; }
+.sec-head { display:flex; align-items:center; gap:14px; margin-bottom:8px; }
+.sec-num { font-family:'DM Serif Display', serif; font-size:42px; color:rgba(78,135,106,0.2); line-height:1; }
+.sec-title { font-family:'Space Grotesk', sans-serif; font-size:10px; letter-spacing:0.5em; text-transform:uppercase; font-weight:700; color:var(--sage); }
+.sec-desc { font-size:14px; color:var(--muted); line-height:1.8; margin-bottom:24px; padding-left:56px; }
+
+/* NAME INPUT */
+.q-label { font-size:17px; font-weight:700; line-height:1.6; margin-bottom:4px; }
+.q-hint { font-size:13px; color:var(--muted); margin-bottom:14px; line-height:1.7; }
+.q-required::after { content:' *'; color:var(--rose); font-weight:400; }
+.q-input {
+  width:100%; padding:14px 18px; background:var(--white); border:1.5px solid rgba(0,0,0,0.08);
+  font-family:'Pretendard', sans-serif; font-size:15px; line-height:1.7; resize:none;
+  transition:border-color 0.2s; outline:none;
+}
+.q-input:focus { border-color:var(--sage); }
+.q-input::placeholder { color:rgba(0,0,0,0.2); }
+
+/* MONTH BLOCK */
+.month-block { background:var(--white); border:1.5px solid rgba(0,0,0,0.06); margin-bottom:16px; overflow:hidden; }
+.month-label {
+  padding:16px 20px; background:var(--sage); color:white;
+  font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.1em;
+}
+.date-grid { display:flex; flex-direction:column; }
+.date-item {
+  display:flex; align-items:center; gap:12px; padding:13px 20px;
+  border-bottom:1px solid rgba(0,0,0,0.04); cursor:pointer; transition:background 0.15s; user-select:none;
+}
+.date-item:last-child { border-bottom:none; }
+.date-item:hover { background:rgba(78,135,106,0.04); }
+.date-item.checked { background:rgba(196,123,114,0.08); }
+.date-item input[type=checkbox] {
+  width:20px; height:20px; accent-color:var(--rose); cursor:pointer; flex-shrink:0;
+}
+.date-item .dt { font-size:15px; font-weight:500; flex:1; }
+.date-item .dt-dow { color:var(--muted); font-weight:400; }
+.tag { font-size:11px; padding:3px 10px; border-radius:3px; font-weight:700; letter-spacing:0.02em; }
+.tag-weekend { background:rgba(123,168,196,0.15); color:var(--sky); }
+.tag-holiday { background:rgba(200,150,42,0.15); color:var(--gold); }
+.tag-sat { background:rgba(139,128,184,0.15); color:var(--lav); }
+
+/* INFO BOX */
+.info-box { background:var(--white); border-left:3px solid var(--sage); padding:16px 20px; font-size:14px; line-height:2; color:var(--ink); margin-bottom:28px; }
+
+/* SUBMIT */
+.submit-sec { text-align:center; padding:40px 0; }
+.submit-btn {
+  background:var(--sage); color:white; border:none; padding:18px 72px;
+  font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700;
+  letter-spacing:0.15em; text-transform:uppercase; cursor:pointer; transition:all 0.2s;
+}
+.submit-btn:hover { opacity:0.88; transform:translateY(-2px); }
+.submit-btn:active { transform:scale(0.97); }
+.submit-btn:disabled { opacity:0.4; cursor:default; transform:none; }
+.submit-note { font-size:13px; color:var(--muted); margin-top:16px; line-height:1.8; }
+
+/* REDO */
+.redo-btn {
+  background:var(--rose); color:white; border:none; padding:14px 48px;
+  font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700;
+  letter-spacing:0.1em; cursor:pointer; margin-top:12px; display:none;
+}
+
+/* RESULTS */
+.results-wrap { max-width:680px; margin:0 auto; padding:0 24px 60px; }
+.result-card { background:var(--white); border:1.5px solid rgba(0,0,0,0.06); padding:20px; margin-bottom:14px; }
+.result-card h3 { font-family:'Space Grotesk', sans-serif; font-size:11px; letter-spacing:0.4em; text-transform:uppercase; color:var(--sage); font-weight:700; margin-bottom:14px; }
+.result-tags { display:flex; flex-wrap:wrap; gap:8px; }
+.r-tag { padding:8px 14px; font-size:14px; font-weight:600; border-radius:3px; }
+.r-perfect { background:rgba(78,135,106,0.12); color:var(--sage); }
+.r-good { background:rgba(200,150,42,0.12); color:var(--gold); }
+.r-name { padding:6px 14px; background:rgba(78,135,106,0.08); font-size:14px; color:var(--sage); font-weight:600; }
+.match-box {
+  text-align:center; padding:24px; background:var(--white); border:2px solid var(--sage);
+  margin-bottom:16px;
+}
+.match-box .big { font-family:'DM Serif Display', serif; font-size:clamp(22px, 4vw, 32px); color:var(--sage); margin-bottom:4px; }
+.match-box .small { font-size:13px; color:var(--muted); }
+.empty-msg { text-align:center; color:var(--muted); padding:24px; font-size:14px; line-height:2; }
+
+/* DONE */
+.done-screen {
+  display:none; text-align:center; padding:100px 24px;
+  min-height:60vh; justify-content:center; align-items:center; flex-direction:column;
+}
+.done-screen.show { display:flex; }
+.done-emoji { font-size:72px; margin-bottom:24px; animation:bounce 0.6s ease; }
+@keyframes bounce { 0%{transform:scale(0)} 50%{transform:scale(1.2)} 100%{transform:scale(1)} }
+.done-title { font-family:'DM Serif Display', serif; font-size:clamp(28px, 5vw, 44px); margin-bottom:12px; }
+.done-desc { font-size:16px; color:var(--muted); line-height:2; margin-bottom:24px; }
+
+/* CONFETTI */
+.confetti { position:fixed; top:-10px; z-index:1000; pointer-events:none; animation:fall linear forwards; }
+@keyframes fall { to { transform:translateY(110vh) rotate(720deg); opacity:0; } }
+
+/* FOOTER */
+footer { background:var(--ink); padding:40px 80px; display:flex; justify-content:space-between; align-items:center; }
+.f-logo { font-family:'DM Serif Display', serif; font-size:18px; color:white; }
+.f-logo em { color:var(--sage); font-style:italic; }
+.f-copy { font-family:'Space Grotesk', sans-serif; font-size:10px; color:rgba(255,255,255,0.18); letter-spacing:0.12em; }
+
+.hidden { display:none; }
+
+@media(max-width:768px) {
+  .sv-hero { padding:60px 24px 40px; min-height:35vh; }
+  .sv-hero-bg { font-size:clamp(80px, 22vw, 140px); right:-20px; }
+  .sv-title { font-size:clamp(26px, 8vw, 40px); }
+  .form-wrap { padding:40px 20px 80px; }
+  .results-wrap { padding:0 20px 40px; }
+  .sec-desc { padding-left:0; }
+  .submit-btn { padding:16px 48px; }
+  footer { flex-direction:column; gap:16px; padding:32px 24px; }
+}
 </style>
 </head>
 <body>
 
-<div class="hero">
-  <div class="sub">TRAVEL 2026</div>
-  <h1>여행 날짜 맞추기</h1>
-  <p>안 되는 날만 체크하면 끝!<br>체크 안 한 날 = 가능한 날</p>
-  <div class="badge">4월 ~ 5월 · 2박 3일 기준</div>
-</div>
+<div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
 
-<div class="container">
-  <div class="section">
-    <div class="section-header">
-      <span class="section-num">01</span>
-      <span class="section-title">이름</span>
+<!-- HERO -->
+<section class="sv-hero">
+  <div class="sv-hero-bg">踏査</div>
+  <div class="sv-kicker">SURVIVING TRADITIONS · FIELD TRIP</div>
+  <h1 class="sv-title">답사 날짜<br><em>맞추기</em></h1>
+  <p class="sv-sub">안 되는 날만 체크하면 끝입니다.<br>체크 안 한 날 = 가능한 날.</p>
+  <div class="sv-badge">2026년 4월 ~ 5월</div>
+</section>
+
+<!-- FORM -->
+<div class="form-wrap" id="formWrap">
+
+  <!-- 이름 -->
+  <div class="sv-section" data-section="0">
+    <div class="sec-head">
+      <div class="sec-num">01</div>
+      <div class="sec-title">이름</div>
     </div>
-    <div class="field-desc">누가 답했는지 알아야 하니까요.</div>
-    <input type="text" class="name-input" id="nameInput" placeholder="실명" maxlength="10">
+    <div class="sec-desc">누가 답했는지 알아야 일정을 잡죠.</div>
+    <div class="q-label q-required">이름</div>
+    <input type="text" class="q-input" id="nameInput" placeholder="실명" maxlength="10">
   </div>
 
+  <!-- 달력 -->
   <div id="calendarSection" class="hidden">
-    <div class="section">
-      <div class="section-header">
-        <span class="section-num">02</span>
-        <span class="section-title">안 되는 날짜</span>
+    <div class="sv-section" data-section="1">
+      <div class="sec-head">
+        <div class="sec-num">02</div>
+        <div class="sec-title">안 되는 날짜</div>
       </div>
-      <div class="field-desc">안 되는 날만 체크! 체크 안 하면 가능한 날로 간주합니다.</div>
+      <div class="sec-desc">안 되는 날만 체크하세요. 나머지는 전부 가능한 날로 간주합니다.</div>
       <div id="calendarArea"></div>
     </div>
 
-    <button class="submit-btn" id="submitBtn" onclick="submitForm()">제출하기</button>
-    <button class="redo-btn" id="redoBtn" onclick="redoForm()">다시 하기</button>
+    <!-- SUBMIT -->
+    <div class="submit-sec">
+      <button class="submit-btn" id="submitBtn" onclick="submitForm()">제출하기</button>
+      <button class="redo-btn" id="redoBtn" onclick="redoForm()">다시 제출</button>
+      <div class="submit-note">제출하면 바로 결과가 나옵니다.</div>
+    </div>
   </div>
 
-  <div class="results" id="resultsArea">
-    <div class="empty-msg">응답을 불러오는 중...</div>
-  </div>
 </div>
 
-<div class="footer">TRAVEL DATE PICKER · 2026</div>
+<!-- DONE -->
+<div class="done-screen" id="doneScreen">
+  <div class="done-emoji">&#127793;</div>
+  <div class="done-title">제출 완료!</div>
+  <div class="done-desc">아래에서 결과를 확인하세요.</div>
+</div>
+
+<!-- RESULTS -->
+<div class="results-wrap" id="resultsArea">
+  <div class="empty-msg">응답을 불러오는 중...</div>
+</div>
+
+<footer id="footerEl">
+  <div class="f-logo">Surviving <em>Traditions</em></div>
+  <div class="f-copy">&copy; 2026 FIELD TRIP DATE PICKER</div>
+</footer>
 
 <script>
-var API = 'https://script.google.com/macros/s/AKfycbzuyYQUAcG9LZicEbaMMYALxW95z-J5J5mECfQFklETELndZIwwLxU-wAZET_7PjMAu/exec';
+var API = 'https://script.google.com/macros/s/AKfycby9NmwD3rOS7l4bUc8EDUiKsw7ZtOpHMjV7FXF5O4UbtOLMA6ltzXMBJaeGV7x1283A/exec';
 var userName = '';
 var unavailable = [];
 var DOW = ['일','월','화','수','목','금','토'];
 var MONTHS = [
   {year:2026, month:4, label:'4월', days:30, holidays:{}},
-  {year:2026, month:5, label:'5월', days:31, holidays:{5:'어린이날',6:'대체휴일'}}
+  {year:2026, month:5, label:'5월', days:31, holidays:{1:'근로자의 날',5:'어린이날',6:'대체휴일',15:'스승의 날',19:'부처님오신날'}}
 ];
+var TOTAL_MEMBERS = 5;
 
-// 이름 입력 후 엔터
+// Progress bar
+var pbar = document.getElementById('pbar');
+function updateProgress() {
+  var s = window.scrollY, d = document.documentElement.scrollHeight - window.innerHeight;
+  pbar.style.width = (d > 0 ? Math.min(s/d*100,100) : 0) + '%';
+}
+window.addEventListener('scroll', updateProgress, {passive:true});
+
+// Section reveal
+var obs = new IntersectionObserver(function(es) {
+  es.forEach(function(e) {
+    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+  });
+}, {threshold:0.1});
+document.querySelectorAll('.sv-section').forEach(function(el) { obs.observe(el); });
+
+// 이름 입력
 document.getElementById('nameInput').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') startPicking();
 });
@@ -116,7 +271,10 @@ function startPicking() {
   unavailable = [];
   document.getElementById('nameInput').disabled = true;
   renderDates();
-  document.getElementById('calendarSection').classList.remove('hidden');
+  var sec = document.getElementById('calendarSection');
+  sec.classList.remove('hidden');
+  // re-observe new sections
+  sec.querySelectorAll('.sv-section').forEach(function(el) { obs.observe(el); });
 }
 
 function renderDates() {
@@ -127,12 +285,12 @@ function renderDates() {
     block.className = 'month-block';
     var label = document.createElement('div');
     label.className = 'month-label';
-    label.textContent = m.label + ' — 안 되는 날 체크';
+    label.textContent = m.year + '년 ' + m.label;
     block.appendChild(label);
     var grid = document.createElement('div');
     grid.className = 'date-grid';
     for (var d = 1; d <= m.days; d++) {
-      var dt = new Date(m.year, m.month-1, d);
+      var dt = new Date(m.year, m.month - 1, d);
       var dow = dt.getDay();
       var key = m.month + '/' + d;
       var item = document.createElement('label');
@@ -142,23 +300,34 @@ function renderDates() {
       cb.dataset.key = key;
       cb.addEventListener('change', function() {
         var k = this.dataset.key;
-        if (this.checked) unavailable.push(k);
-        else { var i = unavailable.indexOf(k); if (i > -1) unavailable.splice(i, 1); }
+        if (this.checked) {
+          unavailable.push(k);
+          this.parentElement.classList.add('checked');
+        } else {
+          var i = unavailable.indexOf(k);
+          if (i > -1) unavailable.splice(i, 1);
+          this.parentElement.classList.remove('checked');
+        }
       });
       item.appendChild(cb);
       var span = document.createElement('span');
       span.className = 'dt';
-      span.textContent = m.month + '/' + d + ' (' + DOW[dow] + ')';
+      span.innerHTML = m.month + '/' + d + ' <span class="dt-dow">(' + DOW[dow] + ')</span>';
       item.appendChild(span);
       if (m.holidays[d]) {
         var tag = document.createElement('span');
         tag.className = 'tag tag-holiday';
         tag.textContent = m.holidays[d];
         item.appendChild(tag);
-      } else if (dow === 0 || dow === 6) {
+      } else if (dow === 0) {
         var tag = document.createElement('span');
         tag.className = 'tag tag-weekend';
-        tag.textContent = '주말';
+        tag.textContent = '일요일';
+        item.appendChild(tag);
+      } else if (dow === 6) {
+        var tag = document.createElement('span');
+        tag.className = 'tag tag-sat';
+        tag.textContent = '토요일';
         item.appendChild(tag);
       }
       grid.appendChild(item);
@@ -173,19 +342,39 @@ function submitForm() {
   btn.disabled = true;
   btn.textContent = '저장 중...';
   fetch(API, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: {'Content-Type':'application/json'},
+    method:'POST', mode:'no-cors',
+    headers:{'Content-Type':'application/json'},
     body: JSON.stringify({name: userName, unavailable: unavailable})
   }).then(function() {
-    btn.textContent = userName + ' 제출 완료!';
-    btn.style.display = 'none';
-    document.getElementById('redoBtn').style.display = 'block';
-    loadResults();
+    showDone();
   }).catch(function() {
-    btn.textContent = '오류 — 다시 시도';
-    btn.disabled = false;
+    showDone();
   });
+}
+
+function showDone() {
+  document.getElementById('formWrap').style.display = 'none';
+  document.getElementById('doneScreen').classList.add('show');
+  // confetti
+  var colors = ['#4E876A','#C8962A','#C47B72','#7BA8C4','#8B80B8'];
+  for (var i = 0; i < 50; i++) {
+    var c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random()*100 + 'vw';
+    c.style.width = (6+Math.random()*8) + 'px';
+    c.style.height = (6+Math.random()*8) + 'px';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    c.style.borderRadius = Math.random()>0.5 ? '50%' : '2px';
+    c.style.animationDuration = (2+Math.random()*3) + 's';
+    c.style.animationDelay = (Math.random()*1.5) + 's';
+    document.body.appendChild(c);
+    setTimeout((function(el){return function(){el.remove()}})(c), 6000);
+  }
+  window.scrollTo({top:0, behavior:'smooth'});
+  setTimeout(function() {
+    window.scrollTo({top: document.getElementById('resultsArea').offsetTop - 40, behavior:'smooth'});
+  }, 1500);
+  loadResults();
 }
 
 function redoForm() {
@@ -196,7 +385,10 @@ function redoForm() {
   btn.disabled = false;
   btn.textContent = '제출하기';
   var cbs = document.querySelectorAll('#calendarArea input[type=checkbox]');
-  for (var i = 0; i < cbs.length; i++) cbs[i].checked = false;
+  for (var i = 0; i < cbs.length; i++) {
+    cbs[i].checked = false;
+    cbs[i].parentElement.classList.remove('checked');
+  }
 }
 
 function loadResults() {
@@ -204,22 +396,33 @@ function loadResults() {
     .then(function(r) { return r.json(); })
     .then(function(data) { showResults(data); })
     .catch(function() {
-      document.getElementById('resultsArea').innerHTML = '<div class="empty-msg">결과를 불러올 수 없습니다</div>';
+      document.getElementById('resultsArea').innerHTML = '<div class="empty-msg">아직 응답이 없거나 결과를 불러올 수 없습니다.</div>';
     });
 }
 
 function showResults(data) {
   var area = document.getElementById('resultsArea');
   var names = Object.keys(data);
-  if (names.length === 0) { area.innerHTML = '<div class="empty-msg">아직 응답이 없습니다</div>'; return; }
+  if (names.length === 0) {
+    area.innerHTML = '<div class="empty-msg">아직 응답이 없습니다.</div>';
+    return;
+  }
+
   var allDates = [];
-  MONTHS.forEach(function(m) { for (var d = 1; d <= m.days; d++) allDates.push(m.month + '/' + d); });
+  MONTHS.forEach(function(m) {
+    for (var d = 1; d <= m.days; d++) allDates.push(m.month + '/' + d);
+  });
+
+  // 각 날짜별 가능한 사람
   var available = {};
   allDates.forEach(function(dt) {
     available[dt] = names.filter(function(n) { return data[n].indexOf(dt) === -1; });
   });
-  var perfect = [];
-  allDates.forEach(function(dt) { if (available[dt].length === names.length) perfect.push(dt); });
+
+  // 전원 가능
+  var perfect = allDates.filter(function(dt) { return available[dt].length === names.length; });
+  // n-1명 가능
+  var almost = allDates.filter(function(dt) { return available[dt].length === names.length - 1 && available[dt].length >= 2; });
 
   function findStreaks(dates, min) {
     if (dates.length === 0) return [];
@@ -234,32 +437,66 @@ function showResults(data) {
     if (cur.length >= min) streaks.push(cur);
     return streaks;
   }
-  function fmt(dt) { var p = dt.split('/'); var d = new Date(2026,parseInt(p[0])-1,parseInt(p[1])); return dt + ' (' + DOW[d.getDay()] + ')'; }
 
-  var html = '<div class="result-card"><h3>' + names.length + '명 응답</h3><div class="result-tags">';
+  function fmt(dt) {
+    var p = dt.split('/');
+    var d = new Date(2026, parseInt(p[0])-1, parseInt(p[1]));
+    return dt + '(' + DOW[d.getDay()] + ')';
+  }
+
+  var html = '';
+
+  // 응답자 목록
+  html += '<div class="result-card"><h3>응답 현황 — ' + names.length + '/' + TOTAL_MEMBERS + '명</h3>';
+  html += '<div class="result-tags">';
   names.forEach(function(n) { html += '<span class="r-name">' + n + '</span>'; });
   html += '</div></div>';
 
   if (perfect.length > 0) {
     var s3 = findStreaks(perfect, 3);
     var s2 = findStreaks(perfect, 2);
+
     if (s3.length > 0) {
-      html += '<div class="match-box"><div class="big">2박 3일 이상 가능!</div></div>';
-      html += '<div class="result-card"><h3>연속 3일+</h3><div class="result-tags">';
-      s3.forEach(function(s) { html += '<span class="r-tag r-perfect">' + fmt(s[0]) + ' ~ ' + fmt(s[s.length-1]) + '</span>'; });
+      html += '<div class="match-box"><div class="big">2박 3일 가능한 구간 발견!</div>';
+      html += '<div class="small">' + names.length + '명 전원 가능</div></div>';
+      html += '<div class="result-card"><h3>연속 3일 이상</h3><div class="result-tags">';
+      s3.forEach(function(s) {
+        html += '<span class="r-tag r-perfect">' + fmt(s[0]) + ' ~ ' + fmt(s[s.length-1]) + ' (' + s.length + '일)</span>';
+      });
       html += '</div></div>';
     }
+
     if (s2.length > 0) {
-      html += '<div class="result-card"><h3>1박 2일</h3><div class="result-tags">';
-      s2.forEach(function(s) { if(s.length===2) html += '<span class="r-tag r-perfect">' + fmt(s[0]) + ' ~ ' + fmt(s[1]) + '</span>'; });
-      html += '</div></div>';
+      var only2 = s2.filter(function(s) { return s.length === 2; });
+      if (only2.length > 0) {
+        html += '<div class="result-card"><h3>1박 2일</h3><div class="result-tags">';
+        only2.forEach(function(s) {
+          html += '<span class="r-tag r-perfect">' + fmt(s[0]) + ' ~ ' + fmt(s[1]) + '</span>';
+        });
+        html += '</div></div>';
+      }
     }
-    html += '<div class="result-card"><h3>모두 가능 (' + perfect.length + '일)</h3><div class="result-tags">';
+
+    html += '<div class="result-card"><h3>전원 가능 날짜 (' + perfect.length + '일)</h3><div class="result-tags">';
     perfect.forEach(function(dt) { html += '<span class="r-tag r-perfect">' + fmt(dt) + '</span>'; });
     html += '</div></div>';
+
+  } else if (names.length >= 2 && almost.length > 0) {
+    // 전원은 안 되지만 n-1명 가능한 날
+    html += '<div class="match-box"><div class="big" style="color:var(--gold)">전원 가능한 날은 아직 없어요</div>';
+    html += '<div class="small">' + (names.length - 1) + '명 가능한 날이 있습니다</div></div>';
+    var s3a = findStreaks(almost, 3);
+    if (s3a.length > 0) {
+      html += '<div class="result-card"><h3>' + (names.length-1) + '명 가능 — 연속 3일+</h3><div class="result-tags">';
+      s3a.forEach(function(s) {
+        html += '<span class="r-tag r-good">' + fmt(s[0]) + ' ~ ' + fmt(s[s.length-1]) + '</span>';
+      });
+      html += '</div></div>';
+    }
   } else {
-    html += '<div class="result-card"><h3 style="color:#ff6b6b">전원 가능한 날이 아직 없어요</h3><p style="color:#666;font-size:0.8rem;margin-top:8px">더 많은 사람이 응답하면 결과가 나와요!</p></div>';
+    html += '<div class="empty-msg">전원 가능한 날이 아직 없습니다.<br>더 많은 응답이 모이면 결과가 나옵니다.</div>';
   }
+
   area.innerHTML = html;
 }
 
